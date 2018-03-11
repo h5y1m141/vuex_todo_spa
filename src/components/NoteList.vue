@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="NoteList">
-      <ul v-for="note in notes" :key="note.id">
+      <ul v-for="note in notes" :key="note.id + '-note'">
         <li class="NoteList-item" @click="select(note)">
           <router-link :to="{ path: `/notes/${note.id}/edit` }">
             <span class="NoteList-title">{{ note.title }}</span>

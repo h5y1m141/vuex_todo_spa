@@ -32,7 +32,18 @@ export default new Vuex.Store({
       context.commit('initNotes', notes)
     },
     addToNote (context, label) {
-      alert('store dispatch' + label)
+      const d = new Date()
+      const updated = `${d.getFullYear()}-${d.getMonth() + 1}-${d.getDate()} ${d.toTimeString().split(' ')[0]}`
+      const id = this.state.notes.length + 1
+      const note = {
+        id: id,
+        title: 'Untitled',
+        body: '',
+        user: 'MyUserName',
+        updated: updated
+      }
+      this.state.notes.unshift(note)
+      context.commit('addToNote', note)
     },
     selectNote (context, note) {
       context.commit('selectNote', note)
