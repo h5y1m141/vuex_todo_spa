@@ -10,14 +10,14 @@ export default new Vuex.Store({
   },
   getters: {
     initialNotes: state => {
-      state.currentProduct = state.notes[0]
+      state.currentstate = state.notes[0]
       return state.notes
     }
   },
   mutations: {
     initNotes (state, notes) {
-      notes.forEach(function (product, index, array) {
-        state.notes.push(product)
+      notes.forEach(function (_note, index, array) {
+        state.notes.push(_note)
       })
     },
     addToNote (state, note) {
@@ -25,6 +25,14 @@ export default new Vuex.Store({
     },
     selectNote (state, note) {
       state.note = note
+    },
+    updateNote (state, note) {
+      state.notes.forEach(function (_note, index, array) {
+        if (_note.id === note.id) {
+          _note = note
+          state.note = note
+        }
+      })
     }
   },
   actions: {
@@ -32,10 +40,24 @@ export default new Vuex.Store({
       context.commit('initNotes', notes)
     },
     addToNote (context, label) {
-      alert('store dispatch' + label)
+      const d = new Date()
+      const updated = `${d.getFullYear()}-${d.getMonth() + 1}-${d.getDate()} ${d.toTimeString().split(' ')[0]}`
+      const id = this.state.notes.length + 1
+      const note = {
+        id: id,
+        title: 'Untitled',
+        body: '',
+        user: 'MyUserName',
+        updated: updated
+      }
+      this.state.notes.unshift(note)
+      context.commit('addToNote', note)
     },
     selectNote (context, note) {
       context.commit('selectNote', note)
+    },
+    updateNote (context, note) {
+      context.commit('updateNote', note)
     }
   }
 })

@@ -8,14 +8,19 @@
         <NoteList :notes="notes"></NoteList>
       </div>
     </div>
-    <div v-show="currentNote.body" class="page-Dashboard-main" role="form">
-      <NoteBody :body="currentNote.body"></NoteBody>
+    <div v-show="currentNote" class="page-Dashboard-main" role="form">
+      <div class="page-NoteEdit">
+        <NoteHeader :note="currentNote"></NoteHeader>
+
+        <NoteBody :note="currentNote"></NoteBody>
+      </div>
     </div>
   </div>
 </template>
 <script>
 import ButtonElement from '@/components/ButtonElement'
 import NoteList from '@/components/NoteList'
+import NoteHeader from '@/components/NoteHeader'
 import NoteBody from '@/components/NoteBody'
 import store from '@/stores/main'
 
@@ -25,7 +30,8 @@ export default {
   components: {
     ButtonElement,
     NoteList,
-    NoteBody
+    NoteBody,
+    NoteHeader
   },
   methods: {
     alertCheck () {
