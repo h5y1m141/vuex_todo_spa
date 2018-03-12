@@ -1,7 +1,7 @@
 <template>
 <div>
   <div class="page-NoteEdit-body">
-    <textarea :value="note.body" />
+    <textarea v-model="note.body" />
   </div>
   <div class="page-NoteEdit-preview">
     <div class="NoteBody" v-html="compiledHTML"></div>
@@ -115,4 +115,3 @@ export default {
   margin-bottom: 0;
 }
 </style>
-
