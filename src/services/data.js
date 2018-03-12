@@ -17,7 +17,7 @@ module.exports = [
     'id': 2,
     'title': 'GraphQLでNonNullなList',
     'updated': '2016-04-24 12:32:50',
-    'body': '```javascript\nclass FooError extends Error {}\nconsole.log(new FooError() instanceof FooError); //=> false\nconsole.log(new FooError() instanceof Error); //=> true\n\nclass SampleArray extends Array {}\nconsole.log(new SampleArray() instanceof SampleArray); //=> false\nconsole.log(new SampleArray() instanceof Array);```',
+    'body': '```javascript\nclass Sample ```こんな感じで文章かく',
     'user': 'MyUserName'
   },
   {
