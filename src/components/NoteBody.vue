@@ -1,7 +1,7 @@
 <template>
 <div>
   <div class="page-NoteEdit-body">
-    <textarea v-model="note.body" />
+    <textarea v-model="note.body" @change="updateNote" />
   </div>
   <div class="page-NoteEdit-preview">
     <div class="NoteBody" v-html="compiledHTML"></div>
@@ -14,6 +14,11 @@ export default {
   name: 'notebody',
   props: {
     note: Object
+  },
+  methods: {
+    updateNote: function () {
+      this.$store.dispatch('updateNote', this.note)
+    }
   },
   computed: {
     compiledHTML () {

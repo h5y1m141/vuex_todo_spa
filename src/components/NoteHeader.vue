@@ -1,16 +1,33 @@
 <template>
 <div class="page-NoteEdit-header">
-  <input aria-label="タイトル" ref="title" type="text" :value="note.title" data-page-title />
+  <input aria-label="タイトル" ref="title" type="text" v-model="note.title" data-page-title />
     <div class="page-NoteEdit-buttons">
+      <ButtonElement :button-label="label" :onClick="save" />
     </div>
 </div>
 </template>
 
 <script>
+import ButtonElement from '@/components/ButtonElement'
+import store from '@/stores/main'
 export default {
   name: 'noteheader',
+  store,
+  components: {
+    ButtonElement
+  },
   props: {
     note: Object
+  },
+  data: function () {
+    return {
+      label: 'ノート保存'
+    }
+  },
+  methods: {
+    save () {
+      this.$store.dispatch('updateNote', this.note)
+    }
   }
 }
 </script>
