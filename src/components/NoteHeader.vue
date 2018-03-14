@@ -2,7 +2,8 @@
 <div class="page-NoteEdit-header">
   <input aria-label="タイトル" ref="title" type="text" v-model="note.title" data-page-title />
     <div class="page-NoteEdit-buttons">
-      <ButtonElement :button-label="label" :onClick="save" />
+      <ButtonElement :button-label="saveLabel" :onClick="saveNote" />
+      <ButtonElement :button-label="deleteLabel" :onClick="deleteNote" />
     </div>
 </div>
 </template>
@@ -21,12 +22,18 @@ export default {
   },
   data: function () {
     return {
-      label: 'ノート保存'
+      saveLabel: 'ノート保存',
+      deleteLabel: '削除'
     }
   },
   methods: {
-    save () {
+    saveNote () {
       this.$store.dispatch('updateNote', this.note)
+    },
+    deleteNote () {
+      if (window.confirm('削除してもよろしいですか？')) {
+        this.$store.dispatch('deleteNote', this.note)
+      }
     }
   }
 }

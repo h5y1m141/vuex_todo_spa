@@ -33,6 +33,9 @@ export default new Vuex.Store({
           state.note = note
         }
       })
+    },
+    deleteNote (state, note) {
+      state.notes = state.notes.filter(_note => _note.id !== note.id)
     }
   },
   actions: {
@@ -58,6 +61,9 @@ export default new Vuex.Store({
     },
     updateNote (context, note) {
       context.commit('updateNote', note)
+    },
+    deleteNote (context, note) {
+      context.commit('deleteNote', note)
     }
   }
 })
