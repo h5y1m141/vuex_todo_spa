@@ -1,72 +1,24 @@
-const LATENCY = 200;
-
-let notes = require('./data');
-let starred = [1, 2, 3];
-
+import firebaseConfig from '../../config/firebase'
+const LATENCY = 200
+const firebase = require('firebase')
 export default {
-  request(response) {
+  request (response) {
     return new Promise(resolve => {
-      setTimeout(() => resolve(response), LATENCY);
-    });
+      setTimeout(() => resolve(response), LATENCY)
+    })
   },
-
-  wait() {
-    return new Promise(resolve => setTimeout(resolve, LATENCY));
+  wait () {
+    return new Promise(resolve => setTimeout(resolve, LATENCY))
   },
-
-  getUpdated() {
-    const d = new Date();
-    return `${d.getFullYear()}-${d.getMonth() + 1}-${d.getDate()} ${d.toTimeString().split(' ')[0]}`;
-  },
-
-  myNotes() {
-    return notes.filter(note => note.user === 'MyUserName');
-  },
-
-  fetchMyNotes() {
-    return this.request(this.myNotes());
-  },
-
-  fetchStarredNotes() {
-    return this.request(notes.filter(note => starred.includes(note.id)));
-  },
-
-  fetchNote(id) {
-    const note = notes.find(note => note.id === id);
-    return this.request(Object.assign({ starred: starred.includes(note.id) }, note));
-  },
-
-  createNote() {
-    const id = notes.length + 1;
-    const note = { id, title: 'Untitled', body: '', user: 'MyUserName', updated: this.getUpdated() };
-    notes.unshift(note);
-    return this.request(note);
-  },
-
-  updateNote(id, { title, body }) {
-    notes = notes.map(note => {
-      if (note.id === id) {
-        return Object.assign({}, note, { title, body, updated: this.getUpdated() });
+  fetchNotes () {
+    const app = firebase.initializeApp(firebaseConfig)
+    const db = app.database()
+    const ref = db.ref('/notes')
+    ref.on('value', (snapshot) => {
+      const notes = snapshot.val()
+      for (let note of Object.values(notes)) {
+        console.log(note)
       }
-      else {
-        return note;
-      }
-    });
-    return this.request(null);
-  },
-
-  deleteNote(id) {
-    notes = notes.filter(note => note.id !== id);
-    return this.request(null);
-  },
-
-  createStar(id) {
-    starred.push(id);
-    return this.request(null);
-  },
-
-  deleteStar(id) {
-    starred = starred.filter(_id => _id !== id);
-    return this.request(null);
-  },
-};
+    })
+  }
+}

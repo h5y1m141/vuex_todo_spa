@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-
+import noteClient from '@/services/NoteApiClient'
 Vue.use(Vuex)
 
 export default new Vuex.Store({
@@ -16,6 +16,7 @@ export default new Vuex.Store({
   },
   mutations: {
     initNotes (state, notes) {
+      noteClient.fetchNotes()
       notes.forEach(function (_note, index, array) {
         state.notes.push(_note)
       })
