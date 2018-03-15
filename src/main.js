@@ -4,7 +4,8 @@ import Vue from 'vue'
 import App from '@/pages/App'
 import router from './router'
 import store from './stores/main'
-let notes = require('@/services/data')
+import firebaseConfig from '../config/firebase'
+const firebase = require('firebase')
 Vue.config.productionTip = false
 
 /* eslint-disable no-new */
@@ -13,8 +14,18 @@ new Vue({
   router,
   components: { App },
   template: '<App/>',
-  created () {
-    this.$store.dispatch('initNotes', notes)
+  mounted () {
+    var result = []
+    const app = firebase.initializeApp(firebaseConfig)
+    const db = app.database()
+    const ref = db.ref('/notes')
+    ref.on('value', (snapshot) => {
+      const notes = snapshot.val()
+      for (let note of Object.values(notes)) {
+        result.push(note)
+      }
+      this.$store.dispatch('initNotes', result)
+    })
   },
   store
 })
